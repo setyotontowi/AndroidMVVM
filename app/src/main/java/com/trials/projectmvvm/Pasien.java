@@ -1,5 +1,7 @@
 package com.trials.projectmvvm;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 public class Pasien {
@@ -45,5 +47,11 @@ public class Pasien {
 
     public void setTangggalLahir(Date tangggalLahir) {
         this.tangggalLahir = tangggalLahir;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return this.nama;
     }
 }

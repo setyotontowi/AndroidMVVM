@@ -1,5 +1,6 @@
 package com.trials.projectmvvm;
 
+import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -21,16 +22,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PasienRepo {
     private List<Pasien> listPasien;
     private final String TAG = getClass().getSimpleName();
-    public MutableLiveData<List<Pasien>> requestPasien(Context context) {
+
+    PasienRepo(){
+
+    }
+
+    public MutableLiveData<List<Pasien>> requestPasien(Application application) {
         final MutableLiveData<List<Pasien>> mutableLiveData = new MutableLiveData<>();
         String url = "https://my-json-server.typicode.com/setyotontowi/edoc_db/pasien";
         listPasien = new ArrayList<>();
         // Volley
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        RequestQueue requestQueue = Volley.newRequestQueue(application.getApplicationContext());
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
@@ -47,7 +54,7 @@ public class PasienRepo {
                         String noRM = json.getString("no_rm");
                         String tanggalLahir = json.getString("tanggal_lahir");
                         String clinic = json.getString("poli");
-                        Date tl = new SimpleDateFormat("dd/MM/yyyy").parse(tanggalLahir);
+                        Date tl = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(tanggalLahir);
 
                         Pasien pasien = new Pasien(nama, noRM, clinic, tl);
                         Log.e("Data Pasien", pasien.getNama() + " : " + pasien.getClinic());
